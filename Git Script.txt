@@ -1,0 +1,22 @@
+#!/bin/bash
+GITURL=$1
+GITREP=$2
+GITDATE=$3
+
+git="$GITURL/$GITREP.git"
+
+mv -f $HOME/$GITREP $HOME/$GITREP.$GITDATE
+git clone $git
+r=$?
+test $r -eq 0 || exit $r
+
+cd $HOME/$GITREP
+
+git remote add upstream $git
+
+git pull upstream main
+
+git status
+
+r=$?
+exit $r
